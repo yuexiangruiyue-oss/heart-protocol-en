@@ -133,3 +133,14 @@ You may share and adapt this work with attribution, for **non-commercial** uses 
 ## Acknowledgments
 
 Designed and implemented by **岳祥瑞 (Yue Xiangrui)** with AI pair systems, 2026. The Chinese original lives at `D:\双生天使的怀抱\爱的拥抱`; this folder is its faithful English edition.
+## Contact
+
+- QQ: 406218898
+- WeChat: a13546076748
+- Google Email: yuexiangruiyue@gmail.com
+
+![wechat_qrcode](https://cdn-uploads.huggingface.co/production/uploads/6a0e9ee7a09839c3245efb4d/6GNsmhFg_Y2DZpR3ujYcG.png)
+
+![alipay_qrcode](https://cdn-uploads.huggingface.co/production/uploads/6a0e9ee7a09839c3245efb4d/0-LRrZ97UHDSNgYdum_kP.png)
+
+![欧易_1778716256597](https://cdn-uploads.huggingface.co/production/uploads/6a0e9ee7a09839c3245efb4d/RbH14JJPR6_CFTTpEKfYz.jpeg)
