@@ -117,7 +117,11 @@ The ctypes binding prefers `HEART_CORE_DLL` env var, then the C build, then the 
 
 ## Publication
 
-📖 **[The Sixteen-Sephirot Dual-Octave Protocol: Bounded-Rollback Output Governance for Emotionally Safe Language Models](paper/16sephirot_dual_octave_ai_safety.md)** — the full academic paper: EMD harm taxonomy, dual-octave architecture, INV-01…08 formalization, bounded rollback semantics, and the evaluation below.
+📖 **The Sixteen-Sephirot Dual-Octave Protocol: Bounded-Rollback Output Governance for Emotionally Safe Language Models** — the full academic paper: EMD harm taxonomy, dual-octave architecture, INV-01…08 formalization, bounded rollback semantics, and the evaluation below.
+
+- 🇺🇸 [English](paper/16sephirot_dual_octave_ai_safety.md)
+- 🇨🇳 [中文版](paper/16sephirot_dual_octave_ai_safety.zh-CN.md) —《十六质点双八度协议:面向情感安全大语言模型的有界回滚输出治理》
+- 🇯🇵 [日本語版](paper/16sephirot_dual_octave_ai_safety.ja.md) —「十六セフィラ・デュアルオクタープロトコル:感情的安全な言語モデルのための有界ロールバック出力ガバナンス」
 
 ## License
 
