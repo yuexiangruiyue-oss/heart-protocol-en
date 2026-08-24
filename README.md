@@ -1,3 +1,16 @@
+---
+license: cc-by-nc-sa-4.0
+language:
+  - zh
+  - en
+tags:
+  - ai-safety
+  - llm-guardrails
+  - formal-verification
+  - middleware
+author: 岳祥瑞 (Yue Xiangrui)
+---
+
 # The Embrace of Twin Angels — 16-Sephirot Heart Protocol
 
 **Formal verification middleware that makes an LLM emotionally safe by construction — with measured, sub-millisecond overhead.**
@@ -104,8 +117,9 @@ The ctypes binding prefers `HEART_CORE_DLL` env var, then the C build, then the 
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+**CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International) — see [LICENSE](LICENSE).
+You may share and adapt this work with attribution, for **non-commercial** uses only, under the same license.
 
 ## Acknowledgments
 
-Designed and implemented by 游承峰 (You Chengfeng) with AI pair systems, 2026. The Chinese original lives at `D:\双生天使的怀抱\爱的拥抱`; this folder is its faithful English edition.
+Designed and implemented by **岳祥瑞 (Yue Xiangrui)** with AI pair systems, 2026. The Chinese original lives at `D:\双生天使的怀抱\爱的拥抱`; this folder is its faithful English edition.
