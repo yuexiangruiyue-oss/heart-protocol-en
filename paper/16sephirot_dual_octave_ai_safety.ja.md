@@ -5,6 +5,7 @@
 独立研究者・「双生天使的怀抱」(The Embrace of Twin Angels)プロジェクト
 2026年・成果物: `github.com/yuexiangruiyue-oss/heart-protocol-en` (コード、テスト、ベンチマーク)・`github.com/yuexiangruiyue-oss/twin-angels-en` (設計ドキュメント)
 
+**DOI:** [10.5281/zenodo.22080966](https://doi.org/10.5281/zenodo.22080966)
 ---
 
 ## 概要

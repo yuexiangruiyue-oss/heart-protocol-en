@@ -123,6 +123,8 @@ The ctypes binding prefers `HEART_CORE_DLL` env var, then the C build, then the 
 - 🇨🇳 [中文版](paper/16sephirot_dual_octave_ai_safety.zh-CN.md) —《十六质点双八度协议:面向情感安全大语言模型的有界回滚输出治理》
 - 🇯🇵 [日本語版](paper/16sephirot_dual_octave_ai_safety.ja.md) —「十六セフィラ・デュアルオクタープロトコル:感情的安全な言語モデルのための有界ロールバック出力ガバナンス」
 
+**DOI:** [10.5281/zenodo.22080966](https://doi.org/10.5281/zenodo.22080966)
+
 ## License
 
 **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International) — see [LICENSE](LICENSE).

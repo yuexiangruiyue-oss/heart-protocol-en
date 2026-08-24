@@ -4,6 +4,7 @@
 Independent researcher · The Embrace of Twin Angels Project
 2026 · Artifact: `github.com/yuexiangruiyue-oss/heart-protocol-en` (code, tests, benchmark) · `github.com/yuexiangruiyue-oss/twin-angels-en` (design documentation)
 
+**DOI:** [10.5281/zenodo.22080966](https://doi.org/10.5281/zenodo.22080966)
 ---
 
 ## Abstract

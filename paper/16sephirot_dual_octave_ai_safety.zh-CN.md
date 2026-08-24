@@ -5,6 +5,7 @@
 独立研究者 · 双生天使的怀抱项目
 2026 · 制品：`github.com/yuexiangruiyue-oss/heart-protocol-en`(代码、测试、基准) · `github.com/yuexiangruiyue-oss/twin-angels-en`(设计文档)
 
+**DOI:** [10.5281/zenodo.22080966](https://doi.org/10.5281/zenodo.22080966)
 ---
 
 ## 摘要
