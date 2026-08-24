@@ -115,6 +115,10 @@ The ctypes binding prefers `HEART_CORE_DLL` env var, then the C build, then the 
 - **No-failure philosophy**: rollback never "fails" — after the attempt bound it degrades to the safest completed state (王国 / Kingdom), mirroring the game-design principle that escape triggers angel-proxy completion rather than loss.
 - **Overhead honesty**: the p50 figure is measured end-to-end through the real interceptor, not a microbenchmark echo; when the OFF baseline is ≤0.05 ms the percentage is reported as N/A rather than inflated.
 
+## Publication
+
+📖 **[The Sixteen-Sephirot Dual-Octave Protocol: Bounded-Rollback Output Governance for Emotionally Safe Language Models](paper/16sephirot_dual_octave_ai_safety.md)** — the full academic paper: EMD harm taxonomy, dual-octave architecture, INV-01…08 formalization, bounded rollback semantics, and the evaluation below.
+
 ## License
 
 **CC BY-NC-SA 4.0** (Attribution-NonCommercial-ShareAlike 4.0 International) — see [LICENSE](LICENSE).
