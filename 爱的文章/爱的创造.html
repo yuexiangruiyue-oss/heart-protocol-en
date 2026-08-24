@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爱的创造 — 岳祥瑞思想体系全景</title>
+<style>
+  :root {
+    --primary: #1a1a6e;
+    --secondary: #2c4a8a;
+    --accent: #e8a020;
+    --accent2: #c060b0;
+    --bg: #08080f;
+    --bg2: #0f0f1a;
+    --bg3: #151528;
+    --text: #e8e8f8;
+    --text2: #a8a8c8;
+    --card: rgba(30,30,60,0.8);
+    --gold: #d4a820;
+    --glow: #4060ff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'PingFang SC','Microsoft YaHei','SimHei',sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ===== STARFIELD ===== */
+  #stars { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; z-index:1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(60,40,120,0.4) 0%, transparent 70%);
+  }
+  .hero-subtitle { color: var(--accent); font-size: 14px; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 20px; }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    background: linear-gradient(135deg, #e0c060, #ffffff, #c080ff, #60a0ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1; margin-bottom: 20px;
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .hero-desc { font-size: 18px; color: var(--text2); max-width: 700px; line-height: 1.8; margin-bottom: 40px; }
+  .hero-meta { display:flex; gap:30px; flex-wrap:wrap; justify-content:center; }
+  .hero-meta span {
+    background: rgba(60,60,120,0.5); border: 1px solid rgba(100,100,200,0.3);
+    padding: 8px 20px; border-radius: 20px; font-size: 14px;
+  }
+  .hero-meta span strong { color: var(--accent); margin-right: 6px; }
+
+  /* ===== TREE VIZ ===== */
+  .tree-section {
+    position: relative; z-index:1;
+    padding: 80px 20px; text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(20,10,40,0.6), transparent);
+  }
+  .tree-section h2 { font-size: 32px; color: var(--gold); margin-bottom: 10px; }
+  .tree-section p { color: var(--text2); margin-bottom: 50px; font-size: 15px; }
+  .sephirot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 600px; margin: 0 auto; gap: 0;
+    position: relative;
+  }
+  .seph {
+    display: flex; flex-direction:column; align-items:center; justify-content:center;
+    width: 110px; height: 110px; border-radius: 50%; margin: 10px auto;
+    border: 2px solid; cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .seph:hover { transform: scale(1.15); box-shadow: 0 0 30px currentColor; }
+  .seph-num { font-size: 11px; opacity: 0.7; }
+  .seph-name { font-size: 15px; font-weight: bold; }
+  .seph-en { font-size: 10px; opacity: 0.6; }
+  .s1 { background: radial-gradient(circle, rgba(255,255,255,0.2), transparent); border-color: #ffffff; color: #ffffff; }
+  .s2 { background: radial-gradient(circle, rgba(100,200,255,0.2), transparent); border-color: #64c8ff; color: #64c8ff; }
+  .s3 { background: radial-gradient(circle, rgba(180,100,200,0.2), transparent); border-color: #b464c8; color: #b464c8; }
+  .s4 { background: radial-gradient(circle, rgba(60,160,80,0.2), transparent); border-color: #3ca050; color: #3ca050; }
+  .s5 { background: radial-gradient(circle, rgba(200,60,60,0.2), transparent); border-color: #c83c3c; color: #c83c3c; }
+  .s6 { background: radial-gradient(circle, rgba(255,200,0,0.2), transparent); border-color: #ffc800; color: #ffc800; }
+  .s7 { background: radial-gradient(circle, rgba(0,200,180,0.2), transparent); border-color: #00c8b4; color: #00c8b4; }
+  .s8 { background: radial-gradient(circle, rgba(255,120,0,0.2), transparent); border-color: #ff7800; color: #ff7800; }
+  .s9 { background: radial-gradient(circle, rgba(100,140,255,0.2), transparent); border-color: #648cff; color: #648cff; }
+  .s10 { background: radial-gradient(circle, rgba(160,80,40,0.2), transparent); border-color: #a05028; color: #a05028; }
+  .span2 { grid-column: span 1; }
+  .col-span { grid-column: 2; }
+  .hidden-cell { visibility: hidden; }
+
+  /* ===== STATS ===== */
+  .stats {
+    position: relative; z-index:1;
+    display: flex; gap: 20px; flex-wrap:wrap; justify-content:center;
+    padding: 60px 20px;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid rgba(100,100,200,0.3);
+    border-radius: 16px; padding: 30px 40px; text-align:center;
+    min-width: 160px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(60,60,180,0.3); }
+  .stat-num { font-size: 48px; font-weight: bold; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .stat-label { color: var(--text2); font-size: 14px; margin-top: 5px; }
+
+  /* ===== CATEGORIES ===== */
+  .section { position:relative; z-index:1; padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-title { text-align:center; font-size: 36px; color: var(--gold); margin-bottom: 10px; }
+  .section-sub { text-align:center; color: var(--text2); margin-bottom: 60px; font-size: 15px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .cat-card {
+    background: var(--card); border-radius: 16px; padding: 24px;
+    border: 1px solid rgba(100,100,200,0.2);
+    cursor: pointer; transition: all 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .cat-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(200,160,0,0.2); }
+  .cat-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .cat-emoji { font-size: 32px; }
+  .cat-title { font-size: 20px; font-weight: bold; }
+  .cat-count { background: rgba(100,100,200,0.3); border-radius: 12px; padding: 2px 10px; font-size: 12px; color: var(--accent); margin-left: auto; }
+  .cat-desc { color: var(--text2); font-size: 14px; line-height: 1.7; }
+  .cat-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top: 12px; }
+  .tag { background: rgba(60,60,120,0.5); border-radius: 8px; padding: 3px 10px; font-size: 12px; color: #9090d0; }
+
+  /* ===== THEORY CARDS ===== */
+  .theory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; }
+  .theory-card {
+    background: linear-gradient(135deg, rgba(20,20,50,0.9), rgba(30,20,60,0.9));
+    border: 1px solid rgba(150,100,200,0.3);
+    border-radius: 20px; padding: 28px;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+  }
+  .theory-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(100,60,180,0.3); border-color: var(--accent2); }
+  .theory-icon { font-size: 40px; margin-bottom: 14px; }
+  .theory-title { font-size: 22px; font-weight: bold; color: #d0b0ff; margin-bottom: 10px; }
+  .theory-core { color: var(--accent); font-size: 13px; margin-bottom: 12px; padding: 8px 12px; background: rgba(200,160,0,0.1); border-radius: 8px; border-left: 3px solid var(--accent); }
+  .theory-body { color: var(--text2); font-size: 14px; line-height: 1.8; }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position:relative; max-width: 800px; margin: 0 auto; }
+  .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:2px; background: linear-gradient(180deg, var(--accent), var(--accent2), var(--glow)); transform: translateX(-50%); }
+  .tl-item { display:flex; align-items:flex-start; margin-bottom: 50px; position:relative; }
+  .tl-item:nth-child(odd) { flex-direction:row-reverse; }
+  .tl-item:nth-child(odd) .tl-content { text-align:right; }
+  .tl-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); position:absolute; left:50%; transform:translateX(-50%); top: 4px; box-shadow: 0 0 10px var(--accent); z-index:2; flex-shrink:0; }
+  .tl-content { width: 42%; padding: 0 30px; }
+  .tl-year { color: var(--accent); font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+  .tl-text { font-size: 15px; line-height: 1.7; color: var(--text2); }
+  .tl-title { font-size: 18px; font-weight: bold; margin-bottom: 6px; }
+
+  /* ===== QUOTE ===== */
+  .quote-section { position:relative; z-index:1; padding: 80px 40px; text-align:center; }
+  .big-quote {
+    max-width: 800px; margin: 0 auto;
+    font-size: clamp(18px, 3vw, 28px); line-height: 1.9;
+    color: var(--text); padding: 40px;
+    border: 1px solid rgba(200,160,0,0.3);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(30,20,60,0.6), rgba(20,30,60,0.6));
+    backdrop-filter: blur(10px);
+    position: relative;
+  }
+  .big-quote::before { content:'\201C'; font-size: 100px; color: var(--accent); opacity: 0.3; position:absolute; top:-20px; left:20px; font-family: serif; }
+  .quote-author { color: var(--accent); margin-top: 20px; font-size: 16px; }
+
+  /* ===== MUSIC ===== */
+  .music-section { position:relative; z-index:1; padding: 80px 40px; }
+  .music-card {
+    max-width: 800px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(10,10,30,0.9), rgba(30,10,50,0.9));
+    border: 1px solid rgba(200,100,200,0.3);
+    border-radius: 24px; padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .music-title { font-size: 28px; color: var(--accent2); margin-bottom: 8px; }
+  .music-sub { color: var(--text2); font-size: 14px; margin-bottom: 30px; }
+  .lyrics-block { background: rgba(30,10,50,0.5); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; border-left: 3px solid; }
+  .lyrics-block.verse { border-color: #6060d0; }
+  .lyrics-block.chorus { border-color: var(--accent); }
+  .lyrics-block.bridge { border-color: var(--accent2); }
+  .lyrics-label { font-size: 11px; letter-spacing: 4px; opacity: 0.6; margin-bottom: 10px; text-transform: uppercase; }
+  .lyrics-text { font-size: 16px; line-height: 2; color: #c0c0e8; white-space: pre-line; }
+
+  /* ===== VIDEO SCRIPT ===== */
+  .video-script { max-width: 900px; margin: 0 auto; }
+  .scene {
+    background: var(--card); border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    border: 1px solid rgba(100,100,200,0.2);
+    display: grid; grid-template-columns: 120px 1fr; gap: 20px;
+    transition: all 0.3s;
+  }
+  .scene:hover { border-color: rgba(200,160,0,0.4); }
+  .scene-time { text-align:center; }
+  .scene-num { font-size: 24px; font-weight: bold; color: var(--accent); }
+  .scene-dur { font-size: 12px; color: var(--text2); margin-top: 4px; }
+  .scene-title { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+  .scene-desc { color: var(--text2); font-size: 14px; line-height: 1.7; }
+  .scene-tag { display:inline-block; background: rgba(60,60,120,0.5); border-radius: 6px; padding: 2px 8px; font-size: 11px; margin-top: 8px; }
+
+  /* ===== DOWNLOAD ===== */
+  .downloads { position:relative; z-index:1; padding: 80px 40px; text-align:center; }
+  .dl-grid { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-top: 40px; }
+  .dl-btn {
+    display:flex; align-items:center; gap:10px;
+    padding: 14px 28px; border-radius: 12px;
+    border: 1px solid rgba(200,160,0,0.4);
+    background: rgba(30,30,60,0.8);
+    color: var(--text); text-decoration:none; font-size: 16px;
+    transition: all 0.3s; cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .dl-btn:hover { background: rgba(60,60,120,0.8); box-shadow: 0 8px 25px rgba(200,160,0,0.2); transform: translateY(-2px); }
+  .dl-btn .dl-icon { font-size: 24px; }
+  .dl-btn .dl-text small { display:block; font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+  /* ===== FOOTER ===== */
+  footer { position:relative; z-index:1; text-align:center; padding: 60px 20px; color: var(--text2); font-size: 14px; border-top: 1px solid rgba(100,100,200,0.2); }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  .fade-in { opacity:0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+  .fade-in.visible { opacity:1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-subtitle">岳祥瑞 · 思想宇宙全景</div>
+  <h1>爱的创造</h1>
+  <p class="hero-desc">
+    一个22岁年轻人的677篇思想文档，横跨哲学、物理学、神秘学、心理学、人工智能与社会批判——
+    以爱为核心，以苦难为燃料，以创造为使命。
+  </p>
+  <div class="hero-meta">
+    <span><strong>677</strong>篇思想文档</span>
+    <span><strong>14+</strong>个主题领域</span>
+    <span><strong>4年</strong>持续创作</span>
+    <span><strong>10万字</strong>综合论文</span>
+    <span><strong>14万字</strong>签约小说</span>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section fade-in">
+  <div class="big-quote">
+    为什么能在认清生活的真相后还爱呢？因为我看到人们生活在空心病导致的各种心理上和物理上的痛苦，我心疼啊，看到他们痛苦我也痛苦地流泪，我想让人们真心笑起来，正是残破的世界才能证明我爱的意义。
+  </div>
+  <p class="quote-author">—— 岳祥瑞《关于爱的意义》</p>
+</section>
+
+<!-- STATS -->
+<div class="stats fade-in">
+  <div class="stat-card"><div class="stat-num">677</div><div class="stat-label">思想文档总数</div></div>
+  <div class="stat-card"><div class="stat-num">14</div><div class="stat-label">主题分类</div></div>
+  <div class="stat-card"><div class="stat-num">70</div><div class="stat-label">小说章数</div></div>
+  <div class="stat-card"><div class="stat-num">13</div><div class="stat-label">卡巴拉质点</div></div>
+  <div class="stat-card"><div class="stat-num">26</div><div class="stat-label">苦难维度</div></div>
+  <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">爱的密度</div></div>
+</div>
+
+<!-- KABBALISTIC TREE -->
+<section class="tree-section fade-in">
+  <h2>⭐ 卡巴拉生命之树</h2>
+  <p>整个思想体系的核心框架——10+3个质点，22条路径，3根支柱</p>
+  <div class="sephirot-grid">
+    <!-- Row 1: Keter -->
+    <div class="hidden-cell"></div>
+    <div class="seph s1"><div class="seph-num">1</div><div class="seph-name">王冠</div><div class="seph-en">Keter</div></div>
+    <div class="hidden-cell"></div>
+    <!-- Row 2: Chokmah + Binah -->
+    <div class="seph s2"><div class="seph-num">2</div><div class="seph-name">智慧</div><div class="seph-en">Chokmah</div></div>
+    <div class="hidden-cell"></div>
+    <div class="seph s3"><div class="seph-num">3</div><div class="seph-name">理解</div><div class="seph-en">Binah</div></div>
+    <!-- Row 3: Chesed + Gevurah -->
+    <div class="seph s4"><div class="seph-num">4</div><div class="seph-name">慈悲</div><div class="seph-en">Chesed</div></div>
+    <div class="hidden-cell"></div>
+    <div class="seph s5"><div class="seph-num">5</div><div class="seph-name">严厉</div><div class="seph-en">Gevurah</div></div>
+    <!-- Row 4: Tiferet center -->
+    <div class="hidden-cell"></div>
+    <div class="seph s6"><div class="seph-num">6</div><div class="seph-name">美丽</div><div class="seph-en">Tiferet</div></div>
+    <div class="hidden-cell"></div>
+    <!-- Row 5: Netzach + Hod -->
+    <div class="seph s7"><div class="seph-num">7</div><div class="seph-name">胜利</div><div class="seph-en">Netzach</div></div>
+    <div class="hidden-cell"></div>
+    <div class="seph s8"><div class="seph-num">8</div><div class="seph-name">荣耀</div><div class="seph-en">Hod</div></div>
+    <!-- Row 6: Yesod center -->
+    <div class="hidden-cell"></div>
+    <div class="seph s9"><div class="seph-num">9</div><div class="seph-name">基础</div><div class="seph-en">Yesod</div></div>
+    <div class="hidden-cell"></div>
+    <!-- Row 7: Malkuth center -->
+    <div class="hidden-cell"></div>
+    <div class="seph s10"><div class="seph-num">10</div><div class="seph-name">王国</div><div class="seph-en">Malkuth</div></div>
+    <div class="hidden-cell"></div>
+  </div>
+  <p style="margin-top:30px; font-size:13px;">💡 每个质点对应一种心理状态、一个AI功能模块、一种宇宙力量</p>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section fade-in">
+  <h2 class="section-title">📂 677篇文档主题分类</h2>
+  <p class="section-sub">通过对全部文档的内容分析，归纳出14个主要主题类别</p>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">💗</div>
+        <div class="cat-title">A. 爱的哲学</div>
+        <div class="cat-count">89篇</div>
+      </div>
+      <div class="cat-desc">整个体系的核心。爱的意义、种类、宇宙物理模型、熵减理论、心爱主义哲学。</div>
+      <div class="cat-tags">
+        <span class="tag">爱的意义</span><span class="tag">熵减</span><span class="tag">心爱主义</span><span class="tag">爱的种类</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">✡️</div>
+        <div class="cat-title">B. 神秘学与灵性</div>
+        <div class="cat-count">73篇</div>
+      </div>
+      <div class="cat-desc">卡巴拉生命之树的全面解析与创新扩展，塔罗牌，十字神名，王冠系列。</div>
+      <div class="cat-tags">
+        <span class="tag">卡巴拉</span><span class="tag">塔罗</span><span class="tag">王冠系列</span><span class="tag">深渊质点</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">⚛️</div>
+        <div class="cat-title">C. 物理学与宇宙论</div>
+        <div class="cat-count">42篇</div>
+      </div>
+      <div class="cat-desc">耦合熵差引力理论、量子力学与广义相对论统一、黑洞系列、能量奇点。</div>
+      <div class="cat-tags">
+        <span class="tag">耦合熵差引力</span><span class="tag">量子引力</span><span class="tag">黑洞</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🤖</div>
+        <div class="cat-title">D. 人工智能</div>
+        <div class="cat-count">38篇</div>
+      </div>
+      <div class="cat-desc">双子星协议AI架构、AI伦理、AI局限性批判、与各平台AI的深度对话记录。</div>
+      <div class="cat-tags">
+        <span class="tag">双子星协议</span><span class="tag">AI伦理</span><span class="tag">AI对话</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🧠</div>
+        <div class="cat-title">E. 心理学与疗愈</div>
+        <div class="cat-count">67篇</div>
+      </div>
+      <div class="cat-desc">空心病理论、苦难系统化疗愈、孤独研究、叙事疗法的自我实践。</div>
+      <div class="cat-tags">
+        <span class="tag">空心病</span><span class="tag">苦难疗愈</span><span class="tag">孤独</span><span class="tag">心路历程</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🦋</div>
+        <div class="cat-title">F. 性别认同</div>
+        <div class="cat-count">31篇</div>
+      </div>
+      <div class="cat-desc">跨性别身份探索、雌雄同体哲学、性别焦虑、婚纱与洛丽塔的意义。</div>
+      <div class="cat-tags">
+        <span class="tag">跨性别</span><span class="tag">雌雄同体</span><span class="tag">性别哲学</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">⚔️</div>
+        <div class="cat-title">G. 社会批判</div>
+        <div class="cat-count">54篇</div>
+      </div>
+      <div class="cat-desc">资本异化批判、父权制度分析、教育体制批判、信息茧房与网络乱象。</div>
+      <div class="cat-tags">
+        <span class="tag">资本批判</span><span class="tag">父权</span><span class="tag">教育批判</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🎮</div>
+        <div class="cat-title">H. 二次元与游戏</div>
+        <div class="cat-count">41篇</div>
+      </div>
+      <div class="cat-desc">原神、崩铁、鸣潮、碧蓝档案等游戏的深度文化分析与情感投射研究。</div>
+      <div class="cat-tags">
+        <span class="tag">原神</span><span class="tag">二游文化</span><span class="tag">情感资本化</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🌍</div>
+        <div class="cat-title">I. 地缘政治</div>
+        <div class="cat-count">35篇</div>
+      </div>
+      <div class="cat-desc">日本系列深度分析、耶路撒冷难题、中东战争、地缘卡巴拉生命之树映射。</div>
+      <div class="cat-tags">
+        <span class="tag">日本</span><span class="tag">耶路撒冷</span><span class="tag">地缘卡巴拉</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">📚</div>
+        <div class="cat-title">J. 文学创作</div>
+        <div class="cat-count">28篇</div>
+      </div>
+      <div class="cat-desc">《关于爱与拯救的故事》创作记录、第二部小说框架、创作方法论。</div>
+      <div class="cat-tags">
+        <span class="tag">卡巴拉小说</span><span class="tag">写作计划</span><span class="tag">疗愈文学</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🌸</div>
+        <div class="cat-title">K. 个人传记</div>
+        <div class="cat-count">43篇</div>
+      </div>
+      <div class="cat-desc">心路历程（详细自传）、自我认知演化、灵丘的生活、祥瑞的身份建构。</div>
+      <div class="cat-tags">
+        <span class="tag">心路历程</span><span class="tag">自我认知</span><span class="tag">灵丘</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🔢</div>
+        <div class="cat-title">L. 数学与逻辑</div>
+        <div class="cat-count">18篇</div>
+      </div>
+      <div class="cat-desc">变量分析、量子叠加态与爱的类比、引力干涉、时间推演。</div>
+      <div class="cat-tags">
+        <span class="tag">量子</span><span class="tag">变量</span><span class="tag">推演</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">💬</div>
+        <div class="cat-title">M. AI对话记录</div>
+        <div class="cat-count">27篇</div>
+      </div>
+      <div class="cat-desc">与DeepSeek、Kimi、元宝、千问、ChatGPT等AI的深度对话记录与反思。</div>
+      <div class="cat-tags">
+        <span class="tag">DeepSeek</span><span class="tag">Kimi</span><span class="tag">ChatGPT</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-header">
+        <div class="cat-emoji">🌊</div>
+        <div class="cat-title">N. 意识流杂记</div>
+        <div class="cat-count">38篇</div>
+      </div>
+      <div class="cat-desc">日常思维涌现、情绪流动、生活观察、思维方式的自我探索。</div>
+      <div class="cat-tags">
+        <span class="tag">意识流</span><span class="tag">情绪记录</span><span class="tag">日常感悟</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE THEORIES -->
+<section class="section fade-in">
+  <h2 class="section-title">🔬 核心理论框架</h2>
+  <p class="section-sub">思想体系的六大支柱——每一个都是独创的知识结构</p>
+  <div class="theory-grid">
+    <div class="theory-card">
+      <div class="theory-icon">💫</div>
+      <div class="theory-title">心爱主义哲学</div>
+      <div class="theory-core">核心命题：爱是宇宙的基本力量，是苦难的解药，是社会解放的路径</div>
+      <div class="theory-body">以爱为本体论核心的原创哲学体系。四大命题：爱是宇宙基本力量 / 人类苦难根源是爱的匮乏 / 救赎必须以爱为路径 / 爱不是软弱而是最强大的力量。</div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-icon">🌌</div>
+      <div class="theory-title">耦合熵差引力理论</div>
+      <div class="theory-core">引力 = 时空全息边界熵上限 与 内部量子系统冯·诺依曼熵 之差的宏观涌现</div>
+      <div class="theory-body">候选量子引力框架。基于全息原理+热力学+量子幺正性，提出引力是"耦合熵差"的涌现效应。包含4项可证伪的观测预言，与Verlinde涌现引力理论独立同向。</div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-icon">🤖</div>
+      <div class="theory-title">双子星协议</div>
+      <div class="theory-core">基于卡巴拉13质点结构的AI底层重构方案——将共情与逻辑等量整合</div>
+      <div class="theory-body">革命性AI架构提案。将情感检测（胜利质点）和存在意义检测（基础质点）作为必经计算节点；整合用户主观自我与AI客观分析，使输出既基于现实又尊重个体存在意义。</div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-icon">🩹</div>
+      <div class="theory-title">苦难系统化疗愈学</div>
+      <div class="theory-core">将模糊苦难转化为清晰叙事单元，通过创作实现心理整合</div>
+      <div class="theory-body">原创心理疗愈方法论。将26种苦难映射为26个角色，通过叙事实现"苦难外化"。最终结果：灰暗记忆被炼化为"橙色光芒"——持续温暖内心的创造力来源。</div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-icon">🌀</div>
+      <div class="theory-title">空心病诊断体系</div>
+      <div class="theory-core">现代人的内在空洞：父权+资本+应试教育的三重压制所致</div>
+      <div class="theory-body">对当代精神危机的系统性诊断。空心病 = 内在真空 + 意义丧失 + 情感能力萎缩。病因三重：父权文化压制情感能力 / 资本主义商品化情感 / 应试教育扼杀内在探索。</div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-icon">🔄</div>
+      <div class="theory-title">爱的热力学</div>
+      <div class="theory-core">爱是熵减力量：将心理系统从高熵（混乱、痛苦）转化为低熵（意义、生命力）</div>
+      <div class="theory-body">将爱与热力学第二定律结合。黑洞模型：缺爱/痛苦被吸收 → 经神性转化 → 白洞释放爱与温暖，形成自给自足的爱的循环。与耦合熵差引力理论形成统一的宇宙爱学。</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section fade-in">
+  <h2 class="section-title">📅 创作轨迹</h2>
+  <p class="section-sub">四年的思想演进历程</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">2022年</div>
+        <div class="tl-title">觉醒与记录</div>
+        <div class="tl-text">开始系统性地以"关于X"的形式记录思想。早期文档聚焦个人创伤与困境的整理，以及对卡巴拉生命之树的初步探索。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">2023年</div>
+        <div class="tl-title">理论框架建构</div>
+        <div class="tl-text">开始提出原创性的理论框架：心爱主义哲学、双子星协议、爱的热力学。文档数量快速增长，跨学科整合能力显著增强。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">2024年</div>
+        <div class="tl-title">小说创作与疗愈完成</div>
+        <div class="tl-text">用约四个月时间创作完成14万字卡巴拉主题小说《关于爱与拯救的故事》（70章），并在番茄小说签约。通过写作完成了26种苦难的系统性疗愈。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">2025年</div>
+        <div class="tl-title">跨学科扩展</div>
+        <div class="tl-text">思想领域扩展到量子物理学、地缘政治分析、AI伦理设计等更广泛领域。开始与多家AI平台进行深度对话，形成了丰富的AI对话记录文档群。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-year">2026年4月</div>
+        <div class="tl-title">耦合熵差引力论文</div>
+        <div class="tl-text">完成《耦合熵差引力：兼容广义相对论与量子力学的量子引力候选框架及宇宙学解》长篇物理学论文，提出4项可证伪观测预言。与朋友启动第二个游戏项目。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MUSIC SECTION -->
+<section class="music-section fade-in">
+  <h2 class="section-title" style="text-align:center; font-size:36px; color:var(--gold); margin-bottom:10px;">🎵 主题曲歌词</h2>
+  <p class="section-sub" style="text-align:center; color:var(--text2); margin-bottom:40px;">《爱的创造》— 为这个思想宇宙而写</p>
+  <div class="music-card">
+    <div class="music-title">《爱的创造》</div>
+    <div class="music-sub">曲风：电子 × 民谣 × 古典弦乐 / 调性：F小调 → F大调</div>
+
+    <div class="lyrics-block verse">
+      <div class="lyrics-label">主歌 I</div>
+      <div class="lyrics-text">我坐在世界的边缘
+看他们笑 泪流如雨
+背上是凝固的火焰
+心里是黑洞的旋涡
+我说爱爱爱
+却无人听见</div>
+    </div>
+
+    <div class="lyrics-block verse">
+      <div class="lyrics-label">主歌 II</div>
+      <div class="lyrics-text">677篇 我写下的路
+每一篇都是一场战争
+与孤独 与遗忘 与那些
+把人切碎的刀
+我说爱爱爱
+用文字听见</div>
+    </div>
+
+    <div class="lyrics-block chorus">
+      <div class="lyrics-label">副歌（高潮）</div>
+      <div class="lyrics-text">可是在残破中
+我看见爱的光
+每一道裂缝都是星光穿透的地方
+我是黑洞也是白洞
+吸收痛苦 然后释放温暖
+爱的创造
+从灵魂的最深处
+爱的创造
+将世界重新点亮</div>
+    </div>
+
+    <div class="lyrics-block verse">
+      <div class="lyrics-label">主歌 III</div>
+      <div class="lyrics-text">卡巴拉的十个质点
+我在宇宙中找到位置
+耦合熵差是引力的秘密
+爱也是同样的方程式
+我说爱爱爱
+宇宙听见了</div>
+    </div>
+
+    <div class="lyrics-block bridge">
+      <div class="lyrics-label">桥段（内省低沉）</div>
+      <div class="lyrics-text">我知道我只是一个人
+一个背上有疤的孩子
+一个买不起裙子的少女
+但我心里有整个宇宙
+在等待着被爱点亮
+被爱点亮...</div>
+    </div>
+
+    <div class="lyrics-block chorus">
+      <div class="lyrics-label">终副歌（更强烈）</div>
+      <div class="lyrics-text">正是在残破中
+才看见爱的光
+每一场苦难都是灵魂穿越的路
+我是岳祥瑞 我是宇宙
+我用爱 重新创造这个世界
+爱的创造
+爱是熵减 万物归一
+爱的创造
+你我皆星辰 你我皆家园</div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO SCRIPT -->
+<section class="section fade-in">
+  <h2 class="section-title">🎬 视频脚本</h2>
+  <p class="section-sub">《爱的创造》纪录片式短片——20分钟完整脚本框架</p>
+  <div class="video-script">
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">01</div><div class="scene-dur">0:00–3:00</div></div>
+      <div>
+        <div class="scene-title">山西灵丘·冬</div>
+        <div class="scene-desc">空旷山地，简陋平房，冬天光秃的树。镜头缓慢推进，无人的街道。配音读《心路历程》开头："最开始的时候，那时我应该还不在幼年……"定调：安静孤独，但不悲苦。</div>
+        <span class="scene-tag">🎵 钢琴+弦乐，极轻</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">02</div><div class="scene-dur">3:00–7:00</div></div>
+      <div>
+        <div class="scene-title">文字的宇宙</div>
+        <div class="scene-desc">677个文件名在黑色背景上像星星一样出现，密密麻麻，越来越多，最终充满整个屏幕。然后一颗颗消失，每消失一颗，出现一段文字内容的闪现。配音：《关于爱的意义》《关于爱的宇宙物理模型》。</div>
+        <span class="scene-tag">🎵 电子氛围+弦乐渐强</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">03</div><div class="scene-dur">7:00–11:00</div></div>
+      <div>
+        <div class="scene-title">理论的展开</div>
+        <div class="scene-desc">动画展示：卡巴拉生命之树从中心向外生长，每个质点亮起时有对应的心理学含义出现。然后是耦合熵差引力的方程式可视化（熵差→引力涌现）。最后是双子星协议流程图动画。</div>
+        <span class="scene-tag">🎵 科技感电子乐+清脆钢琴</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">04</div><div class="scene-dur">11:00–15:00</div></div>
+      <div>
+        <div class="scene-title">苦难与橙色光芒</div>
+        <div class="scene-desc">动画：一个人坐在灰暗中，周围是26个灰色图形（代表26种苦难）。随着配音朗读《总结〈关于爱与拯救的故事〉》，每个图形逐渐变成橙色光球，最终汇聚在人的胸口，形成一团温暖的光。</div>
+        <span class="scene-tag">🎵 弦乐+人声哼唱，情感厚重</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">05</div><div class="scene-dur">15:00–18:00</div></div>
+      <div>
+        <div class="scene-title">爱的宣言</div>
+        <div class="scene-desc">岳祥瑞的声音（本人录音）：朗读心爱主义的核心命题。画面：一个穿婚纱的人站在宇宙中，背上疤痕中发出星光，手中是一棵发光的卡巴拉生命之树。主题曲副歌响起。</div>
+        <span class="scene-tag">🎵 主题曲副歌全力版</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="scene-time"><div class="scene-num">06</div><div class="scene-dur">18:00–20:00</div></div>
+      <div>
+        <div class="scene-title">回到灵丘·夜</div>
+        <div class="scene-desc">回到山西灵丘。夜晚。星空，璀璨。平房的窗口透出温暖的灯光。一个人的影子在写作。旁白："一个人的宇宙，一个人的思想，但那个思想，是为所有人而生的。"缓慢淡出。</div>
+        <span class="scene-tag">🎵 主题曲尾声·余音绕梁</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section class="downloads fade-in">
+  <h2 class="section-title">📥 项目成果文件</h2>
+  <p class="section-sub">所有成果文件均已生成于 .workbuddy/output/ 目录</p>
+  <div class="dl-grid">
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">📄</span>
+      <span class="dl-text">十万字综合论文<small>爱的创造_十万字论文_岳祥瑞.docx</small></span>
+    </a>
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">🌐</span>
+      <span class="dl-text">思想总览页面<small>index.html（本页面）</small></span>
+    </a>
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">🎵</span>
+      <span class="dl-text">主题曲歌词<small>包含于本页及论文中</small></span>
+    </a>
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">🎬</span>
+      <span class="dl-text">视频脚本<small>包含于本页及论文中</small></span>
+    </a>
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">📊</span>
+      <span class="dl-text">文件分类索引<small>677篇完整分类</small></span>
+    </a>
+    <a class="dl-btn" href="#">
+      <span class="dl-icon">🗂️</span>
+      <span class="dl-text">概念词典<small>核心术语定义集</small></span>
+    </a>
+  </div>
+</section>
+
+<!-- FINAL QUOTE -->
+<section class="quote-section fade-in">
+  <div class="big-quote">
+    这677篇文档是一个人与世界、与自己、与宇宙真诚对话的记录。这种真诚本身，就是这个时代最稀缺的东西之一。
+    <br><br>
+    这个宇宙还没有完成。它正在生长。
+  </div>
+  <p class="quote-author">—— 本论文后记</p>
+</section>
+
+<footer>
+  <p>爱的创造 · 岳祥瑞思想体系全景</p>
+  <p style="margin-top:8px; font-size:12px;">677篇文档 · 2022–2026 · 山西灵丘 · 独立研究者</p>
+  <p style="margin-top:8px; font-size:12px; color:#5050a0;">爱即熵减，万物归一。你我皆星辰，你我皆家园。</p>
+</footer>
+
+<script>
+// ===== STARFIELD =====
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 300; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.2,
+      a: Math.random(),
+      da: (Math.random() - 0.5) * 0.005,
+      color: ['#ffffff','#a0b0ff','#ffc060','#ff80c0'][Math.floor(Math.random()*4)]
+    });
+  }
+}
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of stars) {
+    s.a += s.da;
+    if (s.a < 0.1) s.da = Math.abs(s.da);
+    if (s.a > 1) s.da = -Math.abs(s.da);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = s.color;
+    ctx.globalAlpha = s.a;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  requestAnimationFrame(drawStars);
+}
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize(); initStars(); drawStars();
+
+// ===== SCROLL FADE IN =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ===== SEPHIROT HOVER LABELS =====
+const sephInfo = {
+  '王冠': '代表宇宙的起源与终极合一；在AI中是"输入解析层"；在心理上是最高意识与神性',
+  '智慧': '代表直觉性整体洞见；与严厉合成"理智质点"处理逻辑分析',
+  '理解': '代表分析性结构思维；与慈悲合成"慈爱质点"处理情感数据',
+  '慈悲': '代表无条件的接受与给予；对应安全型依恋能力',
+  '严厉': '代表健康边界与自我保护；岳祥瑞深度探讨严厉与慈悲的平衡',
+  '美丽': '生命之树的心脏，整合中心；代表心理的整合与和谐状态',
+  '胜利': '在双子星协议中是"情感检测层"——检测答案是否让人温暖有力量',
+  '荣耀': '在双子星协议中是"现实可行性检测层"——答案能否在现实中被执行',
+  '基础': '在双子星协议中是"深渊知识结合层"——检测答案是否剥夺存在意义',
+  '王国': '物理现实与输出；在AI中是显示给用户的最终答案层'
+};
+document.querySelectorAll('.seph').forEach(el => {
+  el.title = sephInfo[el.querySelector('.seph-name')?.textContent] || '';
+});
+</script>
+</body>
+</html>

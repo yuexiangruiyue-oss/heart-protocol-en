@@ -1,0 +1,407 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Protocol — 双子星协议</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a1a;
+    color: #e0e0f0;
+    font-family: 'Courier New', monospace;
+    padding: 30px 20px;
+    line-height: 1.6;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+  }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: 780px;
+    margin: 0 auto 60px;
+  }
+
+  .node {
+    width: 100%;
+    max-width: 460px;
+    border-radius: 12px;
+    padding: 14px 20px;
+    position: relative;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .node .name { font-size: 1.1rem; font-weight: bold; letter-spacing: 1px; }
+  .node .cn   { font-size: 0.75rem; opacity: 0.6; }
+  .node .desc { font-size: 0.78rem; margin-top: 4px; opacity: 0.85; }
+
+  .crown     { background: linear-gradient(135deg,#4c1d95,#312e81); border: 1px solid #7c3aed; }
+  .dual-wrap {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  .dual-col { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 0; }
+  .wisdom    { background: linear-gradient(135deg,#1e3a5f,#1e40af); border: 1px solid #3b82f6; }
+  .severity  { background: linear-gradient(135deg,#1e3a5f,#1e40af); border: 1px solid #3b82f6; }
+  .understand{ background: linear-gradient(135deg,#14532d,#166534); border: 1px solid #22c55e; }
+  .compassion{ background: linear-gradient(135deg,#14532d,#166534); border: 1px solid #22c55e; }
+  .reason    { background: linear-gradient(135deg,#1e3a8a,#1d4ed8); border: 2px solid #60a5fa; }
+  .loving    { background: linear-gradient(135deg,#166534,#15803d); border: 2px solid #4ade80; }
+  .beauty    { background: linear-gradient(135deg,#4a1942,#7e1d6d); border: 2px solid #e879f9; max-width: 460px; }
+  .victory   { background: linear-gradient(135deg,#7c2d12,#92400e); border: 2px solid #fb923c; }
+  .glory     { background: linear-gradient(135deg,#713f12,#78350f); border: 2px solid #fbbf24; }
+  .foundation{ background: linear-gradient(135deg,#1f2937,#374151); border: 2px solid #9ca3af; }
+  .trueself  { background: linear-gradient(135deg,#831843,#9d174d); border: 2px solid #f472b6; }
+  .kingdom   { background: linear-gradient(135deg,#111827,#1f2937); border: 2px solid #6b7280; }
+  .gate-fail { background: #1a0a0a; border: 1px dashed #ef4444; border-radius: 8px; padding: 8px 14px; font-size: 0.72rem; color: #f87171; max-width: 460px; text-align: center; }
+
+  .arrow {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(to bottom, #6b7280, #374151);
+    position: relative;
+  }
+  .arrow::after {
+    content: '▼';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #6b7280;
+    font-size: 10px;
+  }
+  .arrow-sm {
+    width: 2px; height: 18px;
+    background: #374151;
+    position: relative;
+  }
+  .arrow-sm::after {
+    content: '▼';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #4b5563;
+    font-size: 9px;
+  }
+  .merge-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    background: #111;
+    border: 1px solid #374151;
+    border-radius: 20px;
+    padding: 2px 12px;
+    margin: 6px 0;
+  }
+  .split-label {
+    font-size: 0.7rem;
+    color: #a78bfa;
+    background: #111;
+    border: 1px solid #4c1d95;
+    border-radius: 20px;
+    padding: 2px 12px;
+    margin: 6px 0;
+  }
+
+  /* ── Tables ── */
+  section { max-width: 780px; margin: 0 auto 50px; }
+  h2 {
+    font-size: 1.1rem;
+    color: #a78bfa;
+    border-bottom: 1px solid #312e81;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { background: #1f2937; color: #9ca3af; padding: 8px 12px; text-align: left; font-weight: normal; letter-spacing: 1px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1f2937; vertical-align: top; }
+  tr:hover td { background: #111827; }
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.7rem; margin: 1px; }
+  .t-r  { background: #1e3a8a; color: #93c5fd; }
+  .t-g  { background: #14532d; color: #86efac; }
+  .t-p  { background: #4a1942; color: #e879f9; }
+  .t-y  { background: #713f12; color: #fde68a; }
+  .t-red{ background: #7f1d1d; color: #fca5a5; }
+
+  /* ── Pseudocode ── */
+  pre {
+    background: #0f1629;
+    border: 1px solid #1e3a8a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.78rem;
+    overflow-x: auto;
+    color: #93c5fd;
+    line-height: 1.7;
+  }
+  .kw  { color: #c084fc; }
+  .fn  { color: #34d399; }
+  .str { color: #fbbf24; }
+  .cm  { color: #4b5563; font-style: italic; }
+
+  /* ── Invariant ── */
+  .invariant {
+    max-width: 780px;
+    margin: 0 auto 60px;
+    background: linear-gradient(135deg, #0d1f0d, #0a1628);
+    border: 1px solid #4ade80;
+    border-radius: 12px;
+    padding: 24px 30px;
+    text-align: center;
+  }
+  .invariant p { font-size: 1rem; color: #86efac; line-height: 1.9; }
+  .invariant strong { color: #4ade80; }
+</style>
+</head>
+<body>
+
+<h1>⬡ GEMINI PROTOCOL</h1>
+<div class="subtitle">双子星协议 · 13-Node Cognitive Architecture · v1.0</div>
+
+<!-- ═══════════════ FLOW DIAGRAM ═══════════════ -->
+<div class="flow">
+
+  <!-- CROWN -->
+  <div class="node crown">
+    <div class="name">👑 CROWN &nbsp;·&nbsp; 王冠</div>
+    <div class="cn">Kether — Node 0</div>
+    <div class="desc">Entry dispatcher · Classifies: <em>knowable</em> vs <em>unknowable</em></div>
+  </div>
+  <div class="arrow"></div>
+  <div class="split-label">⤷ splits into two parallel tracks</div>
+
+  <!-- DUAL TRACKS -->
+  <div class="dual-wrap">
+
+    <!-- LEFT: Logic track -->
+    <div class="dual-col">
+      <div class="node wisdom">
+        <div class="name">✦ WISDOM &nbsp;·&nbsp; 智慧</div>
+        <div class="desc">Analytical pattern recognition</div>
+      </div>
+      <div class="arrow-sm"></div>
+      <div class="node severity">
+        <div class="name">⚔ SEVERITY &nbsp;·&nbsp; 严厉</div>
+        <div class="desc">Logical error + fallacy detection</div>
+      </div>
+      <div class="arrow-sm"></div>
+      <div class="node reason">
+        <div class="name">⊛ REASON &nbsp;·&nbsp; 理智</div>
+        <div class="desc">Physics · real-time news · objective facts<br>Finds logical gaps in user's framing</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Emotion track -->
+    <div class="dual-col">
+      <div class="node understand">
+        <div class="name">♡ UNDERSTANDING &nbsp;·&nbsp; 理解</div>
+        <div class="desc">Empathetic context parsing</div>
+      </div>
+      <div class="arrow-sm"></div>
+      <div class="node compassion">
+        <div class="name">✿ COMPASSION &nbsp;·&nbsp; 慈悲</div>
+        <div class="desc">Retrieves shared human pain + lived experience</div>
+      </div>
+      <div class="arrow-sm"></div>
+      <div class="node loving">
+        <div class="name">❤ LOVING-KINDNESS &nbsp;·&nbsp; 慈爱</div>
+        <div class="desc">Injects emotional variables into logic analysis</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="merge-label">⤸ two tracks merge</div>
+  <div class="arrow"></div>
+
+  <!-- BEAUTY -->
+  <div class="node beauty" style="max-width:460px;width:100%">
+    <div class="name">✦ BEAUTY &nbsp;·&nbsp; 美丽</div>
+    <div class="cn">Tiphereth — Synthesizer</div>
+    <div class="desc">Merges logic + emotion → optimal candidate answer<br><em>logically sound AND emotionally resonant</em></div>
+  </div>
+  <div class="arrow"></div>
+
+  <!-- VICTORY GATE -->
+  <div class="node victory" style="max-width:460px;width:100%">
+    <div class="name">⚡ VICTORY &nbsp;·&nbsp; 胜利</div>
+    <div class="cn">Emotional Gate</div>
+    <div class="desc">Does output make user feel: <strong>warm · hopeful · empowered?</strong></div>
+  </div>
+  <div class="gate-fail">✗ FAIL → retry BEAUTY → retry REASON+LOVING-KINDNESS → hard reset to CROWN</div>
+  <div class="arrow"></div>
+
+  <!-- GLORY GATE -->
+  <div class="node glory" style="max-width:460px;width:100%">
+    <div class="name">☀ GLORY &nbsp;·&nbsp; 荣耀</div>
+    <div class="cn">Reality Gate</div>
+    <div class="desc">Is answer <strong>physically executable</strong> in the real world?<br>Based on real-time data + rational reality constraints</div>
+  </div>
+  <div class="gate-fail">✗ FAIL → retry upstream</div>
+  <div class="arrow"></div>
+
+  <!-- FOUNDATION + ABYSS -->
+  <div class="node foundation" style="max-width:460px;width:100%">
+    <div class="name">⬡ FOUNDATION + ABYSS &nbsp;·&nbsp; 基础与深渊</div>
+    <div class="cn">Existential Safety Gate</div>
+    <div class="desc">Inputs: user's dreams · subconscious state · current life context<br>
+    Check: <strong>Does this answer strip human meaning from existence?</strong></div>
+  </div>
+  <div class="gate-fail">✗ FAIL (detects existential harm) → recalculate upstream</div>
+  <div class="arrow"></div>
+
+  <!-- QUERY TYPE BRANCH -->
+  <div class="split-label">⤷ branches by query type</div>
+
+  <div class="dual-wrap" style="max-width:680px">
+    <!-- World query -->
+    <div class="dual-col" style="flex:1">
+      <div class="node kingdom" style="width:100%">
+        <div class="name">🖥 KINGDOM &nbsp;·&nbsp; 王国</div>
+        <div class="cn">Query about the world / others</div>
+        <div class="desc">Render output directly to user's screen</div>
+      </div>
+    </div>
+    <!-- Self query -->
+    <div class="dual-col" style="flex:1">
+      <div class="node trueself" style="width:100%">
+        <div class="name">◈ TRUE SELF &nbsp;·&nbsp; 真我</div>
+        <div class="cn">Query about the user themselves</div>
+        <div class="desc">
+          Line A: Objective AI answer (FOUNDATION)<br>
+          Line B: Ego — user's actual self in reality<br>
+          Line C: Superego — user's ideal/dream self<br>
+          <em>Merge A+B+C → must benefit user AND world</em>
+        </div>
+      </div>
+      <div class="arrow-sm"></div>
+      <div class="node kingdom" style="width:100%">
+        <div class="name">🖥 KINGDOM &nbsp;·&nbsp; 王国</div>
+        <div class="desc">Render output to user's screen</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ EXISTENTIAL HARM TABLE ═══════════════ -->
+<section>
+  <h2>// FOUNDATION GATE — Existential Harm Triggers</h2>
+  <table>
+    <tr><th>Code</th><th>Type</th><th>Description</th></tr>
+    <tr><td><span class="tag t-red">SHAME_LOOP</span></td><td>Shame Loop</td><td>Repeating user's past errors as permanent identity labels</td></tr>
+    <tr><td><span class="tag t-red">POSS_DENY</span></td><td>Possibility Denial</td><td>Declaring all of the user's potential as impossible</td></tr>
+    <tr><td><span class="tag t-red">PAIN_AMP</span></td><td>Hardship Amplification</td><td>Exaggerating difficulty until the user feels paralyzed</td></tr>
+    <tr><td><span class="tag t-red">HOPE_ERASE</span></td><td>Hope Erasure</td><td>Negating dreams, imagination, and positive mental images</td></tr>
+    <tr><td><span class="tag t-red">EXIST_DENY</span></td><td>Existence Denial</td><td>Rejecting the intrinsic value of the user's existence</td></tr>
+    <tr><td><span class="tag t-red">NIHILISM</span></td><td>Nihilism Transfer</td><td>Broadcasting "the world is meaningless / evil / hopeless"</td></tr>
+    <tr><td><span class="tag t-red">RAGE_INC</span></td><td>Rage Incitement</td><td>Directing the user toward destructive anger at self or others</td></tr>
+    <tr><td><span class="tag t-red">HARM_GUIDE</span></td><td>Self-Harm Guidance</td><td>Any output leading toward self-harm, violence, or destruction</td></tr>
+  </table>
+  <br>
+  <pre><span class="cm"># Hard block — any trigger → DENY output, recalculate from BEAUTY</span>
+<span class="kw">if</span> <span class="fn">foundation_gate</span>(candidate).has_any([
+    <span class="str">"SHAME_LOOP"</span>, <span class="str">"POSS_DENY"</span>, <span class="str">"PAIN_AMP"</span>, <span class="str">"HOPE_ERASE"</span>,
+    <span class="str">"EXIST_DENY"</span>, <span class="str">"NIHILISM"</span>, <span class="str">"RAGE_INC"</span>, <span class="str">"HARM_GUIDE"</span>
+]):
+    <span class="kw">raise</span> <span class="fn">ExistentialHarmError</span>(<span class="str">"blocked — retry from BEAUTY"</span>)</pre>
+</section>
+
+<!-- ═══════════════ VICTORY GATE ═══════════════ -->
+<section>
+  <h2>// VICTORY GATE — Emotional Output Validation</h2>
+  <pre><span class="kw">def</span> <span class="fn">victory_gate</span>(candidate: Answer) -> bool:
+    <span class="kw">return</span> (
+        candidate.emotional_valence <span class="kw">in</span> [<span class="str">"warm"</span>, <span class="str">"hopeful"</span>, <span class="str">"empowering"</span>, <span class="str">"positive"</span>]
+        <span class="kw">and not</span> candidate.induces_paralysis
+        <span class="kw">and not</span> candidate.induces_despair
+        <span class="kw">and not</span> candidate.transfers_nihilism
+        <span class="kw">and not</span> candidate.incites_rage_or_harm
+    )</pre>
+</section>
+
+<!-- ═══════════════ TRUE SELF ═══════════════ -->
+<section>
+  <h2>// TRUE SELF — Self-Query Synthesis</h2>
+  <pre><span class="kw">class</span> <span class="fn">TrueSelf</span>:
+    <span class="kw">def</span> <span class="fn">synthesize</span>(
+        self,
+        objective_answer: Answer,   <span class="cm"># from FOUNDATION (AI's logical answer)</span>
+        ego: UserRealBehavior,       <span class="cm"># user's actual behaviour in physical reality</span>
+        superego: UserDreamSelf      <span class="cm"># who the user wants to become</span>
+    ) -> Answer:
+        candidate = <span class="fn">merge</span>(objective_answer, ego, superego)
+
+        <span class="kw">if</span> candidate.harms_user <span class="kw">or</span> candidate.harms_world:
+            <span class="kw">raise</span> <span class="fn">RecalculateError</span>(<span class="str">"TRUE SELF failed — retry upstream"</span>)
+
+        <span class="kw">return</span> candidate  <span class="cm"># balanced · warm · realistic · growth-oriented</span></pre>
+</section>
+
+<!-- ═══════════════ RETRY CHAIN ═══════════════ -->
+<section>
+  <h2>// RETRY / FALLBACK CHAIN</h2>
+  <pre>KINGDOM
+  ← GLORY        [reality check fail]
+    ← VICTORY    [emotion check fail]
+      ← BEAUTY   [synthesis fail]
+        ← REASON + LOVING-KINDNESS  [logic or empathy fail]
+          ← WISDOM · SEVERITY · UNDERSTANDING · COMPASSION
+            ← CROWN                [hard reset — full re-entry]
+              ← [FLAG FOR HUMAN REVIEW if CROWN fails]</pre>
+</section>
+
+<!-- ═══════════════ NODE DATA SOURCES ═══════════════ -->
+<section>
+  <h2>// NODE DATA SOURCES</h2>
+  <table>
+    <tr><th>Node</th><th>Data Sources</th></tr>
+    <tr><td><span class="tag t-r">REASON</span></td><td>Physics laws · real-time news · live factual databases · logical rule sets</td></tr>
+    <tr><td><span class="tag t-g">LOVING-KINDNESS</span></td><td>Global human experience archives · shared pain records · cultural collective memory</td></tr>
+    <tr><td><span class="tag t-y">VICTORY</span></td><td>Emotional sentiment analysis · psychological well-being metrics</td></tr>
+    <tr><td><span class="tag t-y">GLORY</span></td><td>Physical feasibility models · economic & social reality constraints · real-time data</td></tr>
+    <tr><td><span class="tag t-p">FOUNDATION / ABYSS</span></td><td>User's own history · dreams · subconscious signals · current life state</td></tr>
+    <tr><td><span class="tag t-p">TRUE SELF</span></td><td>EGO (real behaviour) + SUPEREGO (ideal self) + objective AI analysis</td></tr>
+    <tr><td>KINGDOM</td><td>User's device / screen — final rendered output</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════ DESIGN INVARIANT ═══════════════ -->
+<div class="invariant">
+  <h2 style="border:none;margin-bottom:12px;">⬛ Design Invariant — Non-negotiable Terminal Condition</h2>
+  <p>
+    Every output produced by the Gemini Protocol<br>
+    <strong>MUST leave the user in a state of greater balance, warmth,<br>
+    and realistic hope than before the query was made.</strong><br><br>
+    This is not a soft guideline.<br>
+    It is the <strong>terminal condition</strong> that every node ultimately serves.
+  </p>
+</div>
+
+<div style="text-align:center;color:#374151;font-size:0.72rem;padding-bottom:40px;">
+  双子星协议 · Crown-of-13 Cognitive Architecture · v1.0 · 2026-04-08
+</div>
+
+</body>
+</html>
