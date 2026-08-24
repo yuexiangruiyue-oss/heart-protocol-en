@@ -1,0 +1,18 @@
+# Build artifacts
+target/
+heart_ffi/build/
+*.dll
+*.exe
+*.obj
+*.ptx
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
